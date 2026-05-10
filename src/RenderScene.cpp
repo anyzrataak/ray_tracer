@@ -5,29 +5,42 @@ void renderScene1(std::vector<unsigned char>& pixels) {
     std::clog << "Scene #1 - loading..." << std::endl;
 
     HittableList world;
-    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0)));
-    world.add(std::make_shared<Sphere>(Vector_3(-1.2, 0.0, -2.5), 0.5));
-    world.add(std::make_shared<Sphere>(Vector_3(-1.0, -0.2, -1.5), 0.3));
-    world.add(std::make_shared<Box>(Vector_3(0.7, -0.5, -3.0), Vector_3(1.2, 1.0, -2.5)));
-    world.add(std::make_shared<Box>(Vector_3(-0.2, -0.5, -4.0), Vector_3(0.2, -0.1, -3.6)));
-    Camera cam;
+    auto matGround = std::make_shared<Lambertian>(Vector_3(0.5, 0.5, 0.5));
+    auto matSphere1 = std::make_shared<Lambertian>(Vector_3(0.1, 0.4, 0.8));
+    auto matSphere2 = std::make_shared<Metal>(Vector_3(0.8, 0.8, 0.8), 0.1);
+    auto matBox1 = std::make_shared<Metal>(Vector_3(0.7, 0.3, 0.1), 0.0);
+    auto matBox2 = std::make_shared<Lambertian>(Vector_3(0.4, 0.6, 0.2));
 
+    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), matGround));
+    world.add(std::make_shared<Sphere>(Vector_3(-1.2, 0.0, -2.5), 0.5, matSphere1));
+    world.add(std::make_shared<Sphere>(Vector_3(-1.0, -0.2, -1.5), 0.3, matSphere2));
+    world.add(std::make_shared<Box>(Vector_3(0.7, -0.5, -3.0), Vector_3(1.2, 1.0, -2.5), matBox1));
+    world.add(std::make_shared<Box>(Vector_3(-0.2, -0.5, -4.0), Vector_3(0.2, -0.1, -3.6), matBox2));
+
+    Camera cam;
     cam.aspectRatio = (double)Width / Height;
     cam.imageWidth = Width;
     cam.samplesPerPixel = 20;
     cam.maxDepth = 10;
     cam.render(world, pixels);
+
 }
 
 void renderScene2(std::vector<unsigned char>& pixels) {
     std::clog << "Scene #2 - loading..." << std::endl;
 
     HittableList world;
-    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0)));
-    world.add(std::make_shared<Sphere>(Vector_3(0, 0.2, -3.0), 0.7));
-    world.add(std::make_shared<Box>(Vector_3(-1.5, -0.5, -3.5), Vector_3(-0.8, 0.0, -2.8)));
-    world.add(std::make_shared<Sphere>(Vector_3(-1.15, 0.25, -3.15), 0.25));
-    world.add(std::make_shared<Box>(Vector_3(0.8, -0.5, -2.5), Vector_3(1.5, -0.3, -1.5)));
+    auto matGround = std::make_shared<Lambertian>(Vector_3(0.5, 0.5, 0.5));
+    auto matSphere1 = std::make_shared<Dielectric>(1.5);
+    auto matBox1 = std::make_shared<Metal>(Vector_3(0.8, 0.6, 0.2), 0.0);
+    auto matSphere2 = std::make_shared<Lambertian>(Vector_3(0.2, 0.7, 0.3));
+    auto matBox2 = std::make_shared<Metal>(Vector_3(0.9, 0.9, 0.9), 0.3);
+
+    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), matGround));
+    world.add(std::make_shared<Sphere>(Vector_3(0, 0.2, -3.0), 0.7, matSphere1));
+    world.add(std::make_shared<Box>(Vector_3(-1.5, -0.5, -3.5), Vector_3(-0.8, 0.0, -2.8), matBox1));
+    world.add(std::make_shared<Sphere>(Vector_3(-1.15, 0.25, -3.15), 0.25, matSphere2));
+    world.add(std::make_shared<Box>(Vector_3(0.8, -0.5, -2.5), Vector_3(1.5, -0.3, -1.5), matBox2));
 
     Camera cam;
     cam.aspectRatio = (double)Width / Height;

@@ -40,8 +40,12 @@ Vector_3 Camera::rayColor(const Ray& r, int depth, const Hittable& world) {
 
     HitRecord rec;
     if (world.hit(r, Interval(0.001, std::numeric_limits<double>::infinity()), rec)) {
-        Vector_3 dir = rec.getNormal() + randomUnitVector();
-        return 0.5 * rayColor(Ray(rec.getP(), dir), depth - 1, world);
+        Ray scattered;
+        Vector_3 attenuation;
+        if (rec.mat && rec.mat->scatter(r, rec, attenuation, scattered))
+            return attenuation * rayColor(scattered, depth - 1, world);
+        return Vector_3(0, 0, 0);
+
     }
 
     Vector_3 unit = normalize(r.getDirection());

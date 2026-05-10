@@ -8,6 +8,7 @@
 #include "Vector_3.h"
 #include "Ray.h"
 #include "Constants.h"
+#include "Material.h"
 
 class Camera {
     int imageHeight;

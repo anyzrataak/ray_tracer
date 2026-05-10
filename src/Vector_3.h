@@ -3,7 +3,7 @@
 #include <vector>
 #include <cmath>
 #include "Constants.h"
-
+#include <random>
 
 class Vector_3 {
 	double point[3];
@@ -106,4 +106,40 @@ inline Vector_3 normalize(const Vector_3& v) {
 	double l = v.length();
 	if (l <= 0) return Vector_3(0, 0, 0);
 	return v * (1.0 / l);
+}
+
+inline bool nearZero(const Vector_3& v) {
+	constexpr double s = 1e-8;
+	return std::fabs(v.getX()) < s &&
+		std::fabs(v.getY()) < s &&
+		std::fabs(v.getZ()) < s;
+}
+
+inline Vector_3 reflect(const Vector_3& v, const Vector_3& n) {
+	return v - 2.0 * dot(v, n) * n;
+}
+
+inline Vector_3 refract(const Vector_3& uv, const Vector_3& n, double etai_over_etat) {
+	double cosTheta = std::fmin(dot(-uv, n), 1.0);
+	Vector_3 rOutPerp = etai_over_etat * (uv + cosTheta * n);
+	Vector_3 rOutParallel = -std::sqrt(std::fabs(1.0 - rOutPerp.length_squared())) * n;
+	return rOutPerp + rOutParallel;
+}
+
+inline double randomDouble01() {
+	thread_local std::mt19937 rng{ std::random_device{}() };
+	thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);
+	return dist(rng);
+}
+
+inline double randomDouble(double lo, double hi) {
+	return lo + (hi - lo) * randomDouble01();
+}
+
+inline Vector_3 randomUnitVector() {
+	while (true) {
+		Vector_3 p(randomDouble(-1, 1), randomDouble(-1, 1), randomDouble(-1, 1));
+		double lsq = p.length_squared();
+		if (1e-160 < lsq && lsq <= 1.0) return p / std::sqrt(lsq);
+	}
 }

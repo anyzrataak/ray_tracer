@@ -1,9 +1,16 @@
 # Changelog
 
+## 2026-05-10
+
+### Added
+- material logic
+
+### Changed
+- rendered scenes
+
 ## 2026-05-09
 
 ### Added
-
 - basic project structure: include, src, lib
 
 ## 2026-04-12

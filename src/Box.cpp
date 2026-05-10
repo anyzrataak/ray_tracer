@@ -1,8 +1,9 @@
 #include "Box.h"
 
-Box::Box(const Vector_3& a, const Vector_3& b) {
+Box::Box(const Vector_3& a, const Vector_3& b, std::shared_ptr<Material> m) {
     minCorner = Vector_3(std::fmin(a.getX(), b.getX()), std::fmin(a.getY(), b.getY()), std::fmin(a.getZ(), b.getZ()));
     maxCorner = Vector_3(std::fmax(a.getX(), b.getX()), std::fmax(a.getY(), b.getY()), std::fmax(a.getZ(), b.getZ()));
+    mat = std::move(m);
 }
 
 bool Box::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
@@ -33,5 +34,6 @@ bool Box::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
     }
 
     rec.setFaceNormal(r, outwardNormal);
+    rec.mat = mat;
     return true;
 }

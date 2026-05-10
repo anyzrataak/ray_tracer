@@ -2,6 +2,9 @@
 
 #include "Vector_3.h"
 #include "Ray.h"
+#include <memory>
+
+class Material;
 
 class HitRecord {
 public:
@@ -9,6 +12,7 @@ public:
     Vector_3 normal;
     double t;
     bool frontFace;
+    std::shared_ptr<Material> mat;
 
     const Vector_3& getP() const { 
         return p;
