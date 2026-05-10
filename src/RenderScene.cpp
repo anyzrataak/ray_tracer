@@ -5,17 +5,29 @@ void renderScene1(std::vector<unsigned char>& pixels) {
     std::clog << "Scene #1 - loading..." << std::endl;
 
     HittableList world;
-    auto matGround = std::make_shared<Lambertian>(Vector_3(0.5, 0.5, 0.5));
-    auto matSphere1 = std::make_shared<Lambertian>(Vector_3(0.1, 0.4, 0.8));
-    auto matSphere2 = std::make_shared<Metal>(Vector_3(0.8, 0.8, 0.8), 0.1);
-    auto matBox1 = std::make_shared<Metal>(Vector_3(0.7, 0.3, 0.1), 0.0);
-    auto matBox2 = std::make_shared<Lambertian>(Vector_3(0.4, 0.6, 0.2));
 
-    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), matGround));
-    world.add(std::make_shared<Sphere>(Vector_3(-1.2, 0.0, -2.5), 0.5, matSphere1));
-    world.add(std::make_shared<Sphere>(Vector_3(-1.0, -0.2, -1.5), 0.3, matSphere2));
-    world.add(std::make_shared<Box>(Vector_3(0.7, -0.5, -3.0), Vector_3(1.2, 1.0, -2.5), matBox1));
-    world.add(std::make_shared<Box>(Vector_3(-0.2, -0.5, -4.0), Vector_3(0.2, -0.1, -3.6), matBox2));
+    auto matSand = std::make_shared<Lambertian>(Vector_3(0.76, 0.70, 0.55));
+    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), matSand));
+
+    auto matGranite = std::make_shared<Metal>(Vector_3(0.60, 0.58, 0.56), 0.15);
+    world.add(std::make_shared<Sphere>(Vector_3(0.0, 0.10, -3.2), 0.60, matGranite));
+
+    auto matCrystal = std::make_shared<Dielectric>(1.5);
+    world.add(std::make_shared<Sphere>(Vector_3(-1.0, -0.15, -2.4), 0.35, matCrystal));
+
+    auto matRedRock = std::make_shared<Lambertian>(Vector_3(0.62, 0.32, 0.22));
+    world.add(std::make_shared<Sphere>(Vector_3(1.05, -0.28, -2.3), 0.22, matRedRock));
+
+    auto matGrayRock = std::make_shared<Lambertian>(Vector_3(0.48, 0.46, 0.44));
+    world.add(std::make_shared<Sphere>(Vector_3(0.55, -0.33, -1.8), 0.17, matGrayRock));
+
+    auto matMoss = std::make_shared<Lambertian>(Vector_3(0.30, 0.42, 0.20));
+    world.add(std::make_shared<Sphere>(Vector_3(-1.55, -0.25, -3.0), 0.25, matMoss));
+
+    auto matBrick = std::make_shared<Lambertian>(Vector_3(0.58, 0.28, 0.20));
+    world.add(std::make_shared<Box>(Vector_3(-3.0, -0.5, -6.0), Vector_3(-1.1, 0.9, -5.5), matBrick));
+    world.add(std::make_shared<Box>(Vector_3(-0.8, -0.5, -6.0), Vector_3(0.8, 0.9, -5.5), matBrick));
+    world.add(std::make_shared<Box>(Vector_3(1.1, -0.5, -6.0), Vector_3(3.0, 0.9, -5.5), matBrick));
 
     Camera cam;
     cam.aspectRatio = (double)Width / Height;
@@ -30,17 +42,25 @@ void renderScene2(std::vector<unsigned char>& pixels) {
     std::clog << "Scene #2 - loading..." << std::endl;
 
     HittableList world;
-    auto matGround = std::make_shared<Lambertian>(Vector_3(0.5, 0.5, 0.5));
-    auto matSphere1 = std::make_shared<Dielectric>(1.5);
-    auto matBox1 = std::make_shared<Metal>(Vector_3(0.8, 0.6, 0.2), 0.0);
-    auto matSphere2 = std::make_shared<Lambertian>(Vector_3(0.2, 0.7, 0.3));
-    auto matBox2 = std::make_shared<Metal>(Vector_3(0.9, 0.9, 0.9), 0.3);
 
-    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), matGround));
-    world.add(std::make_shared<Sphere>(Vector_3(0, 0.2, -3.0), 0.7, matSphere1));
-    world.add(std::make_shared<Box>(Vector_3(-1.5, -0.5, -3.5), Vector_3(-0.8, 0.0, -2.8), matBox1));
-    world.add(std::make_shared<Sphere>(Vector_3(-1.15, 0.25, -3.15), 0.25, matSphere2));
-    world.add(std::make_shared<Box>(Vector_3(0.8, -0.5, -2.5), Vector_3(1.5, -0.3, -1.5), matBox2));
+    auto matFloor = std::make_shared<Lambertian>(Vector_3(0.72, 0.70, 0.68));
+    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), matFloor));
+
+    auto matPedestal = std::make_shared<Lambertian>(Vector_3(0.55, 0.40, 0.25));
+    world.add(std::make_shared<Box>(Vector_3(-1.4, -0.5, -3.2), Vector_3(1.4, 0.1, -2.2), matPedestal));
+
+    auto matCeramic = std::make_shared<Lambertian>(Vector_3(0.15, 0.25, 0.65));
+    world.add(std::make_shared<Sphere>(Vector_3(-0.85, 0.45, -2.7), 0.35, matCeramic));
+
+    auto matGlass = std::make_shared<Dielectric>(1.5);
+    world.add(std::make_shared<Sphere>(Vector_3(0.0, 0.55, -2.7), 0.45, matGlass));
+
+    auto matGold = std::make_shared<Metal>(Vector_3(0.83, 0.68, 0.22), 0.05);
+    world.add(std::make_shared<Sphere>(Vector_3(0.88, 0.42, -2.7), 0.32, matGold));
+
+    auto matCrate = std::make_shared<Lambertian>(Vector_3(0.45, 0.32, 0.18));
+    world.add(std::make_shared<Box>(Vector_3(-2.8, -0.5, -5.5), Vector_3(-1.8, 0.6, -4.5), matCrate));
+    world.add(std::make_shared<Box>(Vector_3(1.8, -0.5, -5.0), Vector_3(2.7, 0.4, -4.2), matCrate));
 
     Camera cam;
     cam.aspectRatio = (double)Width / Height;

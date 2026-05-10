@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-05-11
+
+### Added
+- cone
+- cylinder
+- csg
+
 ## 2026-05-10
 
 ### Added
