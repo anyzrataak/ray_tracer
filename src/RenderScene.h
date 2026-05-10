@@ -5,6 +5,7 @@
 #include "Constants.h"
 #include "HittableList.h"
 #include "Camera.h"
+#include "Material.h"
 
 #include "Sphere.h"
 #include "Plane.h"
