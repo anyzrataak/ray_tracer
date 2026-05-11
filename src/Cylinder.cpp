@@ -1,10 +1,6 @@
 #include "Cylinder.h"
 
-Cylinder::Cylinder(const Vector_3& c, double r,
-    double yMn, double yMx, std::shared_ptr<Material> m)
-    : center(c), radius(std::fmax(0.0, r)),
-    yMin(yMn), yMax(yMx), mat(std::move(m)) {
-}
+Cylinder::Cylinder(const Vector_3& c, double r, double yMn, double yMx, std::shared_ptr<Material> m): center(c), radius(std::fmax(0.0, r)),yMin(yMn), yMax(yMx), mat(std::move(m)) {}
 
 bool Cylinder::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
     double ox = r.getOrigin().getX() - center.getX();

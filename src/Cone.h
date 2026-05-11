@@ -13,7 +13,6 @@ class Cone : public Hittable {
     double yMin, yMax;
     std::shared_ptr<Material> mat;
 public:
-    Cone(const Vector_3& apex, double halfAngleDeg,
-        double yMin, double yMax, std::shared_ptr<Material> m);
+    Cone(const Vector_3& apex, double halfAngleDeg, double yMin, double yMax, std::shared_ptr<Material> m);
     bool hit(const Ray& r, Interval rayT, HitRecord& rec) const override;
 };
