@@ -6,36 +6,39 @@ void renderScene1(std::vector<unsigned char>& pixels) {
 
     HittableList world;
 
-    auto matSand = std::make_shared<Lambertian>(Vector_3(0.76, 0.70, 0.55));
-    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), matSand));
+    auto matRock = std::make_shared<Lambertian>(Vector_3(0.30, 0.28, 0.26));
+    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), matRock));
 
-    auto matGranite = std::make_shared<Metal>(Vector_3(0.60, 0.58, 0.56), 0.15);
-    world.add(std::make_shared<Sphere>(Vector_3(0.0, 0.10, -3.2), 0.60, matGranite));
+    auto matMirror = std::make_shared<Metal>(Vector_3(0.95, 0.95, 0.95), 0.02);
+    world.add(std::make_shared<Sphere>(Vector_3(0.0, 0.30, -3.5), 0.80, matMirror));
 
-    auto matCrystal = std::make_shared<Dielectric>(1.5);
-    world.add(std::make_shared<Sphere>(Vector_3(-1.0, -0.15, -2.4), 0.35, matCrystal));
+    auto matCylCopper = std::make_shared<Metal>(Vector_3(0.72, 0.45, 0.20), 0.12);
+    world.add(std::make_shared<Cylinder>(Vector_3(-1.30, -0.5, -2.6), 0.18, -0.5, 0.30, matCylCopper));
+    world.add(std::make_shared<Cylinder>(Vector_3( 1.30, -0.5, -2.6), 0.18, -0.5, 0.30, matCylCopper));
+    world.add(std::make_shared<Cylinder>(Vector_3(-1.30, -0.5, -4.4), 0.18, -0.5, 0.30, matCylCopper));
+    world.add(std::make_shared<Cylinder>(Vector_3( 1.30, -0.5, -4.4), 0.18, -0.5, 0.30, matCylCopper));
 
-    auto matRedRock = std::make_shared<Lambertian>(Vector_3(0.62, 0.32, 0.22));
-    world.add(std::make_shared<Sphere>(Vector_3(1.05, -0.28, -2.3), 0.22, matRedRock));
+    auto matConeBronze = std::make_shared<Metal>(Vector_3(0.55, 0.35, 0.15), 0.08);
+    world.add(std::make_shared<Cone>(Vector_3(-1.30, 0.30, -2.6), 22.0, 0.30, 0.75, matConeBronze));
+    world.add(std::make_shared<Cone>(Vector_3( 1.30, 0.30, -2.6), 22.0, 0.30, 0.75, matConeBronze));
+    world.add(std::make_shared<Cone>(Vector_3(-1.30, 0.30, -4.4), 22.0, 0.30, 0.75, matConeBronze));
+    world.add(std::make_shared<Cone>(Vector_3( 1.30, 0.30, -4.4), 22.0, 0.30, 0.75, matConeBronze));
 
-    auto matGrayRock = std::make_shared<Lambertian>(Vector_3(0.48, 0.46, 0.44));
-    world.add(std::make_shared<Sphere>(Vector_3(0.55, -0.33, -1.8), 0.17, matGrayRock));
+    auto matBase = std::make_shared<Lambertian>(Vector_3(0.40, 0.36, 0.32));
+    world.add(std::make_shared<Box>(Vector_3(-1.55, -0.50, -2.85), Vector_3(-1.05, -0.30, -2.35), matBase));
+    world.add(std::make_shared<Box>(Vector_3( 1.05, -0.50, -2.85), Vector_3( 1.55, -0.30, -2.35), matBase));
+    world.add(std::make_shared<Box>(Vector_3(-1.55, -0.50, -4.65), Vector_3(-1.05, -0.30, -4.15), matBase));
+    world.add(std::make_shared<Box>(Vector_3( 1.05, -0.50, -4.65), Vector_3( 1.55, -0.30, -4.15), matBase));
 
-    auto matMoss = std::make_shared<Lambertian>(Vector_3(0.30, 0.42, 0.20));
-    world.add(std::make_shared<Sphere>(Vector_3(-1.55, -0.25, -3.0), 0.25, matMoss));
-
-    auto matBrick = std::make_shared<Lambertian>(Vector_3(0.58, 0.28, 0.20));
-    world.add(std::make_shared<Box>(Vector_3(-3.0, -0.5, -6.0), Vector_3(-1.1, 0.9, -5.5), matBrick));
-    world.add(std::make_shared<Box>(Vector_3(-0.8, -0.5, -6.0), Vector_3(0.8, 0.9, -5.5), matBrick));
-    world.add(std::make_shared<Box>(Vector_3(1.1, -0.5, -6.0), Vector_3(3.0, 0.9, -5.5), matBrick));
+    auto matGlass = std::make_shared<Dielectric>(1.5);
+    world.add(std::make_shared<Sphere>(Vector_3(0.0, -0.32, -1.80), 0.18, matGlass));
 
     Camera cam;
-    cam.aspectRatio = (double)Width / Height;
-    cam.imageWidth = Width;
+    cam.aspectRatio     = (double)Width / Height;
+    cam.imageWidth      = Width;
     cam.samplesPerPixel = 20;
-    cam.maxDepth = 10;
+    cam.maxDepth        = 12;
     cam.render(world, pixels);
-
 }
 
 void renderScene2(std::vector<unsigned char>& pixels) {
@@ -46,27 +49,34 @@ void renderScene2(std::vector<unsigned char>& pixels) {
     auto matFloor = std::make_shared<Lambertian>(Vector_3(0.72, 0.70, 0.68));
     world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), matFloor));
 
-    auto matPedestal = std::make_shared<Lambertian>(Vector_3(0.55, 0.40, 0.25));
-    world.add(std::make_shared<Box>(Vector_3(-1.4, -0.5, -3.2), Vector_3(1.4, 0.1, -2.2), matPedestal));
+    auto matPedestal = std::make_shared<Lambertian>(Vector_3(0.50, 0.38, 0.22));
+    world.add(std::make_shared<Box>(Vector_3(-0.55, -0.50, -3.3), Vector_3( 0.55, 0.05, -2.3), matPedestal));
 
-    auto matCeramic = std::make_shared<Lambertian>(Vector_3(0.15, 0.25, 0.65));
-    world.add(std::make_shared<Sphere>(Vector_3(-0.85, 0.45, -2.7), 0.35, matCeramic));
+    auto matCeramic = std::make_shared<Lambertian>(Vector_3(0.10, 0.20, 0.75));
+    world.add(std::make_shared<Sphere>(Vector_3(0.0, 0.60, -2.8), 0.55, matCeramic));
 
     auto matGlass = std::make_shared<Dielectric>(1.5);
-    world.add(std::make_shared<Sphere>(Vector_3(0.0, 0.55, -2.7), 0.45, matGlass));
+    world.add(std::make_shared<Sphere>(Vector_3( 0.90, 0.28, -2.8), 0.23, matGlass));
 
-    auto matGold = std::make_shared<Metal>(Vector_3(0.83, 0.68, 0.22), 0.05);
-    world.add(std::make_shared<Sphere>(Vector_3(0.88, 0.42, -2.7), 0.32, matGold));
+    auto matMirror = std::make_shared<Metal>(Vector_3(0.90, 0.90, 0.90), 0.02);
+    world.add(std::make_shared<Sphere>(Vector_3(-0.90, 0.28, -2.8), 0.23, matMirror));
 
-    auto matCrate = std::make_shared<Lambertian>(Vector_3(0.45, 0.32, 0.18));
-    world.add(std::make_shared<Box>(Vector_3(-2.8, -0.5, -5.5), Vector_3(-1.8, 0.6, -4.5), matCrate));
-    world.add(std::make_shared<Box>(Vector_3(1.8, -0.5, -5.0), Vector_3(2.7, 0.4, -4.2), matCrate));
+    auto matBoxDark = std::make_shared<Lambertian>(Vector_3(0.30, 0.22, 0.14));
+    world.add(std::make_shared<Box>(Vector_3(-3.0, -0.5, -5.8), Vector_3(-1.8, 0.5, -4.8), matBoxDark));
+    world.add(std::make_shared<Box>(Vector_3(-2.8, 0.5,  -5.8), Vector_3(-2.0, 1.3, -5.0), matBoxDark));
+
+    auto matBoxLight = std::make_shared<Lambertian>(Vector_3(0.55, 0.42, 0.28));
+    world.add(std::make_shared<Box>(Vector_3( 1.8, -0.5, -5.8), Vector_3( 3.0, 0.5, -4.8), matBoxLight));
+    world.add(std::make_shared<Box>(Vector_3( 2.0, 0.5,  -5.8), Vector_3( 2.8, 1.1, -5.0), matBoxLight));
+
+    auto matWall = std::make_shared<Lambertian>(Vector_3(0.60, 0.57, 0.53));
+    world.add(std::make_shared<Box>(Vector_3(-3.5, -0.5, -7.0), Vector_3( 3.5, 1.5, -6.6), matWall));
 
     Camera cam;
-    cam.aspectRatio = (double)Width / Height;
-    cam.imageWidth = Width;
+    cam.aspectRatio     = (double)Width / Height;
+    cam.imageWidth      = Width;
     cam.samplesPerPixel = 20;
-    cam.maxDepth = 10;
+    cam.maxDepth        = 12;
     cam.render(world, pixels);
 }
 
@@ -164,7 +174,6 @@ bool inMenuButton(float mx, float my) {
     float gap = 20, bw = 100, bh = 100;
     float totalW = bw * 2 + gap;
     float bx1 = (Width - totalW) / 2.0f;
-    float bx2 = bx1 + bw + gap;
     float by = (Height - bh) / 2.0f;
     return mx >= bx1 && mx <= bx1 + bw && my >= by && my <= by + bh;
 }

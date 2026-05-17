@@ -1,10 +1,14 @@
 #include "Cylinder.h"
 
-Cylinder::Cylinder(const Vector_3& c, double r, double yMn, double yMx, std::shared_ptr<Material> m): center(c), radius(std::fmax(0.0, r)),yMin(yMn), yMax(yMx), mat(std::move(m)) {}
+Cylinder::Cylinder(const Vector_3& c, double r,
+    double yMn, double yMx, std::shared_ptr<Material> m)
+    : center(c), radius(std::fmax(0.0, r)),
+    yMin(yMn), yMax(yMx), mat(std::move(m)) {
+}
 
 bool Cylinder::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
-    double ox = r.getOrigin().getX() - center.getX();
-    double oz = r.getOrigin().getZ() - center.getZ();
+    double ox = center.getX() - r.getOrigin().getX();
+    double oz = center.getZ() - r.getOrigin().getZ(); 
     double dx = r.getDirection().getX();
     double dz = r.getDirection().getZ();
 
@@ -19,7 +23,7 @@ bool Cylinder::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
 
     if (disc >= 0.0) {
         double sqrtDisc = std::sqrt(disc);
-        for (int sign : {-1, 1}) {
+        for (int sign : {1, -1}) {
             double root = (h + sign * sqrtDisc) / a;
             if (!rayT.surrounds(root) || root >= closestT) continue;
             double y = r.at(root).getY();
