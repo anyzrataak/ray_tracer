@@ -10,6 +10,8 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "Box.h"
+#include "Cone.h"
+#include "Cylinder.h"
 
 void renderScene1(std::vector<unsigned char>& pixels);
 void renderScene2(std::vector<unsigned char>& pixels);

@@ -10,6 +10,7 @@ bool Plane::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
 
     if (!rayT.surrounds(t))
         return false;
+
     rec.t = t;
     rec.p = r.at(rec.t);
     rec.setFaceNormal(r, normal);

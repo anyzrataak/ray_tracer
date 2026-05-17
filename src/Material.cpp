@@ -2,7 +2,8 @@
 #include "Vector_3.h"
 #include <cmath>
 
-bool Lambertian::scatter(const Ray& r_in, const HitRecord& rec, Vector_3& attenuation, Ray& scattered) const {
+bool Lambertian::scatter(const Ray& r_in, const HitRecord& rec,
+    Vector_3& attenuation, Ray& scattered) const {
     Vector_3 dir = rec.getNormal() + randomUnitVector();
     if (nearZero(dir)) dir = rec.getNormal();
     scattered = Ray(rec.getP(), dir);
@@ -10,7 +11,8 @@ bool Lambertian::scatter(const Ray& r_in, const HitRecord& rec, Vector_3& attenu
     return true;
 }
 
-bool Metal::scatter(const Ray& r_in, const HitRecord& rec, Vector_3& attenuation, Ray& scattered) const {
+bool Metal::scatter(const Ray& r_in, const HitRecord& rec,
+    Vector_3& attenuation, Ray& scattered) const {
     Vector_3 reflected = reflect(normalize(r_in.getDirection()), rec.getNormal());
     reflected = reflected + fuzz * randomUnitVector();
     scattered = Ray(rec.getP(), reflected);
@@ -24,7 +26,8 @@ double Dielectric::reflectance(double cosine, double ri) {
     return r0 + (1.0 - r0) * std::pow(1.0 - cosine, 5);
 }
 
-bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec, Vector_3& attenuation, Ray& scattered) const {
+bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec,
+    Vector_3& attenuation, Ray& scattered) const {
     attenuation = Vector_3(1.0, 1.0, 1.0);
     double ri = rec.getFrontFace() ? (1.0 / refractionIndex) : refractionIndex;
     Vector_3 unitDir = normalize(r_in.getDirection());
@@ -38,6 +41,7 @@ bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec, Vector_3& attenu
         direction = reflect(unitDir, rec.getNormal());
     else
         direction = refract(unitDir, rec.getNormal(), ri);
+
     scattered = Ray(rec.getP(), direction);
     return true;
 }

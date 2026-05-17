@@ -1,10 +1,14 @@
 #include "Cone.h"
 
-Cone::Cone(const Vector_3& a, double halfDeg, double yMn, double yMx, std::shared_ptr<Material> m): apex(a), halfAngle(halfDeg* M_PI / 180.0), yMin(yMn), yMax(yMx), mat(std::move(m)) {}
+Cone::Cone(const Vector_3& a, double halfDeg,
+    double yMn, double yMx, std::shared_ptr<Material> m)
+    : apex(a), halfAngle(halfDeg* M_PI / 180.0),
+    yMin(yMn), yMax(yMx), mat(std::move(m)) {
+}
 
 bool Cone::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
     double k = std::tan(halfAngle); k = k * k;
-    Vector_3 oc = r.getOrigin() - apex;
+    Vector_3 oc = apex - r.getOrigin();
 
     double dx = r.getDirection().getX(), dy = r.getDirection().getY(), dz = r.getDirection().getZ();
     double ox = oc.getX(), oy = oc.getY(), oz = oc.getZ();
@@ -19,7 +23,7 @@ bool Cone::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
     bool hitSomething = false;
     HitRecord bestRec; double closestT = rayT.getMax();
 
-    for (int sign : {-1, 1}) {
+    for (int sign : {1, -1}) {
         double root = (h + sign * sqrtDisc) / a;
         if (!rayT.surrounds(root) || root >= closestT) continue;
         Vector_3 hp = r.at(root);

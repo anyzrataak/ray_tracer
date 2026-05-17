@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-05-17
+
+### Fixed
+- cone and cylinder rendering
+
 ## 2026-05-11
 
 ### Added
