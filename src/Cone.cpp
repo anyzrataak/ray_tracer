@@ -1,10 +1,6 @@
 #include "Cone.h"
 
-Cone::Cone(const Vector_3& a, double halfDeg,
-    double yMn, double yMx, std::shared_ptr<Material> m)
-    : apex(a), halfAngle(halfDeg* M_PI / 180.0),
-    yMin(yMn), yMax(yMx), mat(std::move(m)) {
-}
+Cone::Cone(const Vector_3& a, double halfDeg, double yMn, double yMx, std::shared_ptr<Material> m): apex(a), halfAngle(halfDeg* M_PI / 180.0), yMin(yMn), yMax(yMx), mat(std::move(m)) {}
 
 bool Cone::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
     double k = std::tan(halfAngle); k = k * k;
