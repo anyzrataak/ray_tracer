@@ -15,5 +15,6 @@ class Cylinder : public Hittable {
 
 public:
     Cylinder(const Vector_3& c, double r, double yMin, double yMax, std::shared_ptr<Material> m);
+
     bool hit(const Ray& r, Interval rayT, HitRecord& rec) const override;
 };

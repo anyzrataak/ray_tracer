@@ -14,8 +14,13 @@ class Sphere : public Hittable {
 public:
     Sphere(const Vector_3& c, double r, std::shared_ptr<Material> m): center(c), radius(std::fmax(0.0, r)), mat(std::move(m)) {}
 
-    const Vector_3& getCenter() const { return center; }
-    double getRadius() const { return radius; }
+    const Vector_3& getCenter() const { 
+        return center; 
+    }
+
+    double getRadius() const { 
+        return radius; 
+    }
 
     bool hit(const Ray& r, Interval rayT, HitRecord& rec) const override;
 };

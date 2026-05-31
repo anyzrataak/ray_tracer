@@ -1,3 +1,10 @@
+/**
+ * @file    Camera.h
+ * @brief   Scene camera configuration.
+ * @author  Katarzyna Pi¹tek
+ * @date    2026-05-31
+ */
+
 #pragma once
 
 #include <random>
@@ -18,6 +25,9 @@ class Camera {
     Vector_3 pixelDeltaV;
     std::mt19937 rng{ std::random_device{}() };
     std::uniform_real_distribution<double> dist{ 0.0, 1.0 };
+
+    int samplesPerPixel = 10;
+    int maxDepth = 50;
 
     double randomDouble() { 
         return dist(rng); 
@@ -50,10 +60,13 @@ class Camera {
     Vector_3 rayColor(const Ray& r, int depth, const Hittable& world); 
 
 public:
-    double aspectRatio = 16.0 / 9.0;
-    int imageWidth = Width;
-    int samplesPerPixel = 10;
-    int maxDepth = 50;
+    void setSPP(int spp) {
+        samplesPerPixel = spp;
+    }
+
+    void setMD(int md) {
+        maxDepth = md;
+    }
 
     void render(const Hittable& world, std::vector<unsigned char>& pixels);
 };
