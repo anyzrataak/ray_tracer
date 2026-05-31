@@ -19,40 +19,59 @@ bool Cylinder::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
 
     if (disc >= 0.0) {
         double sqrtDisc = std::sqrt(disc);
+
         for (int sign : {1, -1}) {
             double root = (h + sign * sqrtDisc) / a;
-            if (!rayT.surrounds(root) || root >= closestT) continue;
+
+            if (!rayT.surrounds(root) || root >= closestT) {
+                continue;
+            }
+
             double y = r.at(root).getY();
-            if (y < yMin || y > yMax) continue;
-            bestRec.t = root;
-            bestRec.p = r.at(root);
-            Vector_3 outward = (bestRec.p - Vector_3(center.getX(), bestRec.p.getY(), center.getZ())) / radius;
+
+            if (y < yMin || y > yMax) {
+                continue;
+            }
+
+            bestRec.setT(root);
+            bestRec.setP(r.at(root));
+            Vector_3 outward = (bestRec.getP() - Vector_3(center.getX(), bestRec.getP().getY(), center.getZ())) / radius;
             bestRec.setFaceNormal(r, outward);
-            bestRec.mat = mat;
+            bestRec.setMat(mat);
             closestT = root;
             hitSomething = true;
         }
     }
 
     double dy = r.getDirection().getY();
+
     if (std::fabs(dy) > 1e-8) {
         for (double capY : {yMin, yMax}) {
             double t = (capY - r.getOrigin().getY()) / dy;
-            if (!rayT.surrounds(t) || t >= closestT) continue;
+
+            if (!rayT.surrounds(t) || t >= closestT) {
+                continue;
+            }
+
             Vector_3 hp = r.at(t);
             double dx2 = hp.getX() - center.getX();
             double dz2 = hp.getZ() - center.getZ();
-            if (dx2 * dx2 + dz2 * dz2 > radius * radius) continue;
-            bestRec.t = t;
-            bestRec.p = hp;
+
+            if (dx2 * dx2 + dz2 * dz2 > radius * radius) {
+                continue;
+            }
+
+            bestRec.setT(t);
+            bestRec.setP(hp);
             Vector_3 capNormal(0, capY == yMin ? -1.0 : 1.0, 0);
             bestRec.setFaceNormal(r, capNormal);
-            bestRec.mat = mat;
+            bestRec.setMat(mat);
             closestT = t;
             hitSomething = true;
         }
     }
 
     if (hitSomething) rec = bestRec;
+
     return hitSomething;
 }

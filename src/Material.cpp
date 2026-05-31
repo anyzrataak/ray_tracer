@@ -5,9 +5,14 @@
 bool Lambertian::scatter(const Ray& r_in, const HitRecord& rec,
     Vector_3& attenuation, Ray& scattered) const {
     Vector_3 dir = rec.getNormal() + randomUnitVector();
-    if (nearZero(dir)) dir = rec.getNormal();
+
+    if (nearZero(dir)) {
+        dir = rec.getNormal();
+    }
+
     scattered = Ray(rec.getP(), dir);
     attenuation = albedo;
+
     return true;
 }
 
@@ -17,12 +22,14 @@ bool Metal::scatter(const Ray& r_in, const HitRecord& rec,
     reflected = reflected + fuzz * randomUnitVector();
     scattered = Ray(rec.getP(), reflected);
     attenuation = albedo;
+
     return dot(scattered.getDirection(), rec.getNormal()) > 0;
 }
 
 double Dielectric::reflectance(double cosine, double ri) {
     double r0 = (1.0 - ri) / (1.0 + ri);
     r0 = r0 * r0;
+
     return r0 + (1.0 - r0) * std::pow(1.0 - cosine, 5);
 }
 
@@ -37,11 +44,15 @@ bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec,
 
     bool cannotRefract = ri * sinTheta > 1.0;
     Vector_3 direction;
-    if (cannotRefract || reflectance(cosTheta, ri) > randomDouble01())
+
+    if (cannotRefract || reflectance(cosTheta, ri) > randomDouble01()) {
         direction = reflect(unitDir, rec.getNormal());
-    else
+    }
+    else {
         direction = refract(unitDir, rec.getNormal(), ri);
+    }
 
     scattered = Ray(rec.getP(), direction);
+
     return true;
 }

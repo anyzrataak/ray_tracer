@@ -17,13 +17,17 @@ bool Sphere::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
     double root = (h - sqrtDisc) / a;
     if (!rayT.surrounds(root)) {
         root = (h + sqrtDisc) / a;
-        if (!rayT.surrounds(root)) return false;
+        
+        if (!rayT.surrounds(root)) {
+            return false;
+        }
     }
 
-    rec.t = root;
-    rec.p = r.at(rec.t);
-    Vector_3 outwardNormal = (rec.p - center) / radius;
+    rec.setT(root);
+    rec.setP(r.at(rec.getT()));
+    Vector_3 outwardNormal = (rec.getP() - center) / radius;
     rec.setFaceNormal(r, outwardNormal);
-    rec.mat = mat;
+    rec.setMat(mat);
+
     return true;
 }

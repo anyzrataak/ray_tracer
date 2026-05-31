@@ -18,6 +18,7 @@ class CSGUnion : public Hittable {
 
 public:
     CSGUnion(std::shared_ptr<Hittable> l, std::shared_ptr<Hittable> r): left(std::move(l)), right(std::move(r)) {}
+
     bool hit(const Ray& r, Interval rayT, HitRecord& rec) const override;
 };
 
@@ -27,6 +28,7 @@ class CSGIntersection : public Hittable {
 
 public:
     CSGIntersection(std::shared_ptr<Hittable> l, std::shared_ptr<Hittable> r): left(std::move(l)), right(std::move(r)) {}
+
     bool hit(const Ray& r, Interval rayT, HitRecord& rec) const override;
 };
 
@@ -35,7 +37,7 @@ class CSGDifference : public Hittable {
     std::shared_ptr<Hittable> right;
 
 public:
-    
     CSGDifference(std::shared_ptr<Hittable> l, std::shared_ptr<Hittable> r): left(std::move(l)), right(std::move(r)) {}
+
     bool hit(const Ray& r, Interval rayT, HitRecord& rec) const override;
 };

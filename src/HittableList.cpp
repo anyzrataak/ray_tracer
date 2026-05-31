@@ -8,9 +8,10 @@ bool HittableList::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
     for (const auto& obj : objects) {
         if (obj->hit(r, Interval(rayT.getMin(), closestSoFar), tempRec)) {
             hitAnything = true;
-            closestSoFar = tempRec.t;
+            closestSoFar = tempRec.getT();
             rec = tempRec;
         }
     }
+
     return hitAnything;
 }

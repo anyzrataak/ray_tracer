@@ -9,10 +9,18 @@ class HittableList : public Hittable {
 
 public:
     HittableList() = default;
-    explicit HittableList(std::shared_ptr<Hittable> obj) { add(obj); }
 
-    void clear() { objects.clear(); }
-    void add(std::shared_ptr<Hittable> obj) { objects.push_back(std::move(obj)); }
+    explicit HittableList(std::shared_ptr<Hittable> obj) { 
+        add(obj); 
+    }
+
+    void clear() { 
+        objects.clear(); 
+    }
+
+    void add(std::shared_ptr<Hittable> obj) { 
+        objects.push_back(std::move(obj)); 
+    }
 
     bool hit(const Ray& r, Interval rayT, HitRecord& rec) const;
 };

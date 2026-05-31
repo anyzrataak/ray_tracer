@@ -14,26 +14,34 @@ bool Box::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
         double invD = 1.0 / r.getDirection()[axis];
         double t0 = (minCorner[axis] - r.getOrigin()[axis]) * invD;
         double t1 = (maxCorner[axis] - r.getOrigin()[axis]) * invD;
-        if (invD < 0.0) 
+
+        if (invD < 0.0) {
             std::swap(t0, t1);
+        }
+            
         tMin = std::fmax(tMin, t0);
         tMax = std::fmin(tMax, t1);
-        if (tMax <= tMin) 
+
+        if (tMax <= tMin) {
             return false;
+        }
     }
 
-    rec.t = tMin;
-    rec.p = r.at(rec.t);
+    rec.setT(tMin);
+    rec.setP(r.at(rec.getT()));
 
     Vector_3 outwardNormal(0, 0, 0);
     for (int axis = 0; axis < 3; ++axis) {
-        if (std::fabs(rec.p[axis] - minCorner[axis]) < 1e-6)
+        if (std::fabs(rec.getP()[axis] - minCorner[axis]) < 1e-6) {
             outwardNormal[axis] = -1.0;
-        else if (std::fabs(rec.p[axis] - maxCorner[axis]) < 1e-6)
+        }
+        else if (std::fabs(rec.getP()[axis] - maxCorner[axis]) < 1e-6) {
             outwardNormal[axis] = 1.0;
+        }
     }
 
     rec.setFaceNormal(r, outwardNormal);
-    rec.mat = mat;
+    rec.setMat(mat);
+
     return true;
 }

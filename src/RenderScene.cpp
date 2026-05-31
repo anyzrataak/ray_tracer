@@ -6,7 +6,7 @@ void renderScene1(std::vector<unsigned char>& pixels) {
 
     HittableList world;
 
-    auto matRock = std::make_shared<Lambertian>(Vector_3(0.30, 0.28, 0.26));
+    auto matRock = std::make_shared<Lambertian>(Vector_3(0.10, 0.20, 0.75));
     world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), matRock));
 
     auto matMirror = std::make_shared<Metal>(Vector_3(0.95, 0.95, 0.95), 0.02);
@@ -34,10 +34,8 @@ void renderScene1(std::vector<unsigned char>& pixels) {
     world.add(std::make_shared<Sphere>(Vector_3(0.0, -0.32, -1.80), 0.18, matGlass));
 
     Camera cam;
-    cam.aspectRatio = (double)Width / Height;
-    cam.imageWidth = Width;
-    cam.samplesPerPixel = 20;
-    cam.maxDepth = 12;
+    cam.setSPP(20);
+    cam.setMD(12);
     cam.render(world, pixels);
 }
 
@@ -73,10 +71,8 @@ void renderScene2(std::vector<unsigned char>& pixels) {
     world.add(std::make_shared<Box>(Vector_3(-3.5, -0.5, -7.0), Vector_3(3.5, 1.5, -6.6), matWall));
 
     Camera cam;
-    cam.aspectRatio = (double)Width / Height;
-    cam.imageWidth = Width;
-    cam.samplesPerPixel = 20;
-    cam.maxDepth = 12;
+    cam.setSPP(50);
+    cam.setMD(12);
     cam.render(world, pixels);
 }
 
@@ -175,6 +171,7 @@ bool inMenuButton(float mx, float my) {
     float totalW = bw * 2 + gap;
     float bx1 = (Width - totalW) / 2.0f;
     float by = (Height - bh) / 2.0f;
+
     return mx >= bx1 && mx <= bx1 + bw && my >= by && my <= by + bh;
 }
 
@@ -183,6 +180,7 @@ bool inMenuButton2(float mx, float my) {
     float totalW = bw * 2 + gap;
     float bx2 = (Width - totalW) / 2.0f + bw + gap;
     float by = (Height - bh) / 2.0f;
+
     return mx >= bx2 && mx <= bx2 + bw && my >= by && my <= by + bh;
 }
 
