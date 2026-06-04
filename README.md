@@ -9,7 +9,7 @@ This repository features a highly optimized C++ 3D Ray Tracer built on top of th
 ## Running the Pre-compiled Binary (Recommended)
 For immediate execution without manual compilation, a stable production build is provided in the project's release assets:
 1. Navigate to the deployment directory containing the compiled executable.
-2. Ensure that 'SDL3.dll' resides in the same directory as the `Project1.exe` file.
+2. Ensure that 'SDL3.dll' resides in the same directory as the 'RT_KP.exe' file.
 3. Launch 'RT_KP.exe' directly to initialize the rendering pipeline.
 
 ## Current Features
