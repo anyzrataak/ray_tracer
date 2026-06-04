@@ -15,6 +15,7 @@ bool Box::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
         double t0 = (minCorner[axis] - r.getOrigin()[axis]) * invD;
         double t1 = (maxCorner[axis] - r.getOrigin()[axis]) * invD;
 
+        // Ensure t0 is the near intersection along this axis.
         if (invD < 0.0) {
             std::swap(t0, t1);
         }
@@ -22,6 +23,7 @@ bool Box::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
         tMin = std::fmax(tMin, t0);
         tMax = std::fmin(tMax, t1);
 
+        // If intervals don't overlap, the ray misses the box.
         if (tMax <= tMin) {
             return false;
         }
@@ -30,6 +32,7 @@ bool Box::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
     rec.setT(tMin);
     rec.setP(r.at(rec.getT()));
 
+    // Determine which face was hit by checking proximity to each slab.
     Vector_3 outwardNormal(0, 0, 0);
     for (int axis = 0; axis < 3; ++axis) {
         if (std::fabs(rec.getP()[axis] - minCorner[axis]) < 1e-6) {

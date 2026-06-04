@@ -1,7 +1,7 @@
 /**
  * @file Setup.h
- * @brief Application lifecycle management (window, renderer, event loop).
- * @author Katarzyna Pi¹tek
+ * @brief Application lifecycle management.
+ * @author Katarzyna Piatek
  * @date 2026-05-31
  */
 
@@ -20,19 +20,13 @@
   * 
   * @details
   * Creates the window and renderer, pre-renders both scenes into SDL textures, and dispatches input events to navigate between the menu and scenes.
-  * 
-  * @param state - current application state (menu or scene).
-  * @param window - SDL window handle.
-  * @param renderer - SDL renderer handle.
-  * @param sceneTextures - pre-rendered textures for each scene.
-  * @param running - flag controlling the main loop.
   */
 class Setup {
-	States state = States::Menu;
-	SDL_Window* window = nullptr;
-	SDL_Renderer* renderer = nullptr;
-	std::vector<SDL_Texture*> sceneTextures;
-	bool running = true;
+	States state = States::Menu; ///< Current application state.
+	SDL_Window* window = nullptr; ///< SDL window handle.
+	SDL_Renderer* renderer = nullptr; ///< SDL renderer handle.
+	std::vector<SDL_Texture*> sceneTextures; ///< Pre-rendered textures for each scene.
+	bool running = true; ///< Flag controlling the main loop.
 
 	/// @brief Pre-renders all scenes and stores them as SDL textures.
 	void loadScenes();

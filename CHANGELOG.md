@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-06-04
+
+### Added
+- source code comments
+
+### Changed
+- improved project directory structure
+
+### Fixed
+- configuration bugs and performance optimizations
+
 ## 2026-05-17
 
 ### Fixed

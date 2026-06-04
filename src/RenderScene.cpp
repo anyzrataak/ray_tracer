@@ -5,33 +5,20 @@ void renderScene1(std::vector<unsigned char>& pixels) {
     std::clog << "Scene #1 - loading..." << std::endl;
 
     HittableList world;
+    auto matGround = std::make_shared<Lambertian>(Vector_3(0.45, 0.55, 0.30));
+    auto matStone = std::make_shared<Lambertian>(Vector_3(0.76, 0.62, 0.42));
+    auto matMoss = std::make_shared<Lambertian>(Vector_3(0.18, 0.48, 0.20));
+    auto matPolished = std::make_shared<Metal>(Vector_3(0.85, 0.65, 0.30), 0.05);
+    auto matCrystal = std::make_shared<Dielectric>(1.55);
+    auto matRed = std::make_shared<Lambertian>(Vector_3(0.72, 0.25, 0.18));
 
-    auto grass = std::make_shared<Lambertian>(Vector_3(0.34, 0.49, 0.02));
-    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), grass));
-
-    auto matMirror = std::make_shared<Metal>(Vector_3(0.95, 0.95, 0.95), 0.02);
-    world.add(std::make_shared<Sphere>(Vector_3(0.0, 0.30, -3.5), 0.80, matMirror));
-
-    auto matCylCopper = std::make_shared<Metal>(Vector_3(0.72, 0.45, 0.20), 0.12);
-    world.add(std::make_shared<Cylinder>(Vector_3(-1.30, -0.5, -2.6), 0.18, -0.5, 0.30, matCylCopper));
-    world.add(std::make_shared<Cylinder>(Vector_3(1.30, -0.5, -2.6), 0.18, -0.5, 0.30, matCylCopper));
-    world.add(std::make_shared<Cylinder>(Vector_3(-1.30, -0.5, -4.4), 0.18, -0.5, 0.30, matCylCopper));
-    world.add(std::make_shared<Cylinder>(Vector_3(1.30, -0.5, -4.4), 0.18, -0.5, 0.30, matCylCopper));
-
-    auto matConeBronze = std::make_shared<Metal>(Vector_3(0.55, 0.35, 0.15), 0.08);
-    world.add(std::make_shared<Cone>(Vector_3(-1.30, 0.30, -2.6), 22.0, 0.30, 0.75, matConeBronze));
-    world.add(std::make_shared<Cone>(Vector_3(1.30, 0.30, -2.6), 22.0, 0.30, 0.75, matConeBronze));
-    world.add(std::make_shared<Cone>(Vector_3(-1.30, 0.30, -4.4), 22.0, 0.30, 0.75, matConeBronze));
-    world.add(std::make_shared<Cone>(Vector_3(1.30, 0.30, -4.4), 22.0, 0.30, 0.75, matConeBronze));
-
-    auto matBase = std::make_shared<Lambertian>(Vector_3(0.40, 0.36, 0.32));
-    world.add(std::make_shared<Box>(Vector_3(-1.55, -0.50, -2.85), Vector_3(-1.05, -0.30, -2.35), matBase));
-    world.add(std::make_shared<Box>(Vector_3(1.05, -0.50, -2.85), Vector_3(1.55, -0.30, -2.35), matBase));
-    world.add(std::make_shared<Box>(Vector_3(-1.55, -0.50, -4.65), Vector_3(-1.05, -0.30, -4.15), matBase));
-    world.add(std::make_shared<Box>(Vector_3(1.05, -0.50, -4.65), Vector_3(1.55, -0.30, -4.15), matBase));
-
-    auto matGlass = std::make_shared<Dielectric>(1.5);
-    world.add(std::make_shared<Sphere>(Vector_3(0.0, -0.32, -1.80), 0.18, matGlass));
+    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), matGround));
+    world.add(std::make_shared<Box>(Vector_3(-2.20, -0.50, -3.20), Vector_3(-1.10, 0.45, -2.20), matStone));
+    world.add(std::make_shared<Cone>(Vector_3(1.80, 1.40, -3.80), 12.0, -0.50, 1.40, matMoss));
+    world.add(std::make_shared<Cylinder>(Vector_3(0.20, -0.50, -2.80), 0.25, -0.50, 0.70, matStone));
+    world.add(std::make_shared<Sphere>(Vector_3(0.20, 0.82, -2.80), 0.18, matPolished));
+    world.add(std::make_shared<Sphere>(Vector_3(-1.20, -0.22, -1.60), 0.28, matRed));
+    world.add(std::make_shared<Sphere>(Vector_3(1.50, -0.18, -1.80), 0.30, matCrystal));
 
     Camera cam;
     cam.setSPP(20);
@@ -44,31 +31,27 @@ void renderScene2(std::vector<unsigned char>& pixels) {
 
     HittableList world;
 
-    auto grass = std::make_shared<Lambertian>(Vector_3(0.34, 0.49, 0.02));
-    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), grass));
-
+    auto ground = std::make_shared<Lambertian>(Vector_3(0.23, 0.23, 0.23));
     auto matMirror = std::make_shared<Metal>(Vector_3(0.95, 0.95, 0.95), 0.02);
-    world.add(std::make_shared<Sphere>(Vector_3(0.0, 0.30, -3.5), 0.80, matMirror));
-
     auto matCylCopper = std::make_shared<Metal>(Vector_3(0.72, 0.45, 0.20), 0.12);
+    auto matConeBronze = std::make_shared<Metal>(Vector_3(0.55, 0.35, 0.15), 0.08);
+    auto matBase = std::make_shared<Lambertian>(Vector_3(0.47, 0.47, 0.47));
+    auto matGlass = std::make_shared<Dielectric>(1.5);
+
+    world.add(std::make_shared<Plane>(Vector_3(0, -0.5, 0), Vector_3(0, 1, 0), ground));
+    world.add(std::make_shared<Sphere>(Vector_3(0.0, 0.30, -3.5), 0.80, matMirror));
     world.add(std::make_shared<Cylinder>(Vector_3(-1.30, -0.5, -2.6), 0.18, -0.5, 0.30, matCylCopper));
     world.add(std::make_shared<Cylinder>(Vector_3(1.30, -0.5, -2.6), 0.18, -0.5, 0.30, matCylCopper));
     world.add(std::make_shared<Cylinder>(Vector_3(-1.30, -0.5, -4.4), 0.18, -0.5, 0.30, matCylCopper));
     world.add(std::make_shared<Cylinder>(Vector_3(1.30, -0.5, -4.4), 0.18, -0.5, 0.30, matCylCopper));
-
-    auto matConeBronze = std::make_shared<Metal>(Vector_3(0.55, 0.35, 0.15), 0.08);
     world.add(std::make_shared<Cone>(Vector_3(-1.30, 0.30, -2.6), 22.0, 0.30, 0.75, matConeBronze));
     world.add(std::make_shared<Cone>(Vector_3(1.30, 0.30, -2.6), 22.0, 0.30, 0.75, matConeBronze));
     world.add(std::make_shared<Cone>(Vector_3(-1.30, 0.30, -4.4), 22.0, 0.30, 0.75, matConeBronze));
     world.add(std::make_shared<Cone>(Vector_3(1.30, 0.30, -4.4), 22.0, 0.30, 0.75, matConeBronze));
-
-    auto matBase = std::make_shared<Lambertian>(Vector_3(0.40, 0.36, 0.32));
     world.add(std::make_shared<Box>(Vector_3(-1.55, -0.50, -2.85), Vector_3(-1.05, -0.30, -2.35), matBase));
     world.add(std::make_shared<Box>(Vector_3(1.05, -0.50, -2.85), Vector_3(1.55, -0.30, -2.35), matBase));
     world.add(std::make_shared<Box>(Vector_3(-1.55, -0.50, -4.65), Vector_3(-1.05, -0.30, -4.15), matBase));
     world.add(std::make_shared<Box>(Vector_3(1.05, -0.50, -4.65), Vector_3(1.55, -0.30, -4.15), matBase));
-
-    auto matGlass = std::make_shared<Dielectric>(1.5);
     world.add(std::make_shared<Sphere>(Vector_3(0.0, -0.32, -1.80), 0.18, matGlass));
 
     Camera cam;

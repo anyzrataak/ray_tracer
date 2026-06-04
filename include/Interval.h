@@ -1,7 +1,7 @@
 /**
  * @file Interval.h
  * @brief Closed real-valued interval [min, max] with utility methods.
- * @author Katarzyna Pi¹tek
+ * @author Katarzyna Piatek
  * @date 2026-05-31
  */
 
@@ -15,13 +15,10 @@
   * 
   * @details
   * Used primarily to define the valid range of the ray parameter t during intersection tests. The default constructor produces an empty interval.
-  * 
-  * @param minVal - lower bound of the interval.
-  * @param maxVal - upper bound of the interval.
   */
 class Interval {
-    double minVal;
-    double maxVal;
+    double minVal; ///< Lower bound of the interval.
+    double maxVal; ///< Upper bound of the interval.
 
 public:
     /// @brief Constructs an empty interval (minVal > maxVal).
@@ -32,8 +29,8 @@ public:
     /**
      * @brief Constructs an interval with explicit bounds.
      *
-     * @param min - lower bound.
-     * @param max - upper bound.
+     * @param min Lower bound.
+     * @param max Upper bound.
      */
     Interval(double min, double max) : minVal(min), maxVal(max) {}
 

@@ -14,6 +14,7 @@ bool Sphere::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
 
     double sqrtDisc = std::sqrt(disc);
 
+    // Try the closer root first; fall back to the farther one if out of range.
     double root = (h - sqrtDisc) / a;
     if (!rayT.surrounds(root)) {
         root = (h + sqrtDisc) / a;

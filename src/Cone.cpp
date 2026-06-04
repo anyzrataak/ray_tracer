@@ -3,12 +3,14 @@
 Cone::Cone(const Vector_3& a, double halfDeg, double yMn, double yMx, std::shared_ptr<Material> m): apex(a), halfAngle(halfDeg* M_PI / 180.0), yMin(yMn), yMax(yMx), mat(std::move(m)) {}
 
 bool Cone::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
+    // k = tan2(halfAngle) is the slope factor from the cone equation x2+z2 = k*(y-apex.y)2.
     double k = std::tan(halfAngle); k = k * k;
     Vector_3 oc = apex - r.getOrigin();
 
     double dx = r.getDirection().getX(), dy = r.getDirection().getY(), dz = r.getDirection().getZ();
     double ox = oc.getX(), oy = oc.getY(), oz = oc.getZ();
 
+    // Quadratic coefficients from substituting the ray into the cone equation.
     double a = dx * dx + dz * dz - k * dy * dy;
     double h = ox * dx + oz * dz - k * oy * dy;
     double c = ox * ox + oz * oz - k * oy * oy;
@@ -23,6 +25,7 @@ bool Cone::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
     HitRecord bestRec; 
     double closestT = rayT.getMax();
 
+    // Test both roots and keep the closest one that falls within the Y bounds.
     for (int sign : {1, -1}) {
         double root = (h + sign * sqrtDisc) / a;
 
@@ -37,9 +40,11 @@ bool Cone::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
             continue;
         }
 
+        // Outward normal is the gradient of the cone equation at the hit point.
         double nx = hp.getX() - apex.getX();
         double nz = hp.getZ() - apex.getZ();
         double ny = -k * (py - apex.getY());
+
         Vector_3 outward = normalize(Vector_3(nx, ny, nz));
         bestRec.setT(root);
         bestRec.setP(hp);
@@ -51,6 +56,7 @@ bool Cone::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
 
     double dy2 = r.getDirection().getY();
 
+    // Test the bottom cap as a flat disk at yMin.
     if (std::fabs(dy2) > 1e-8) {
         double t = (yMin - r.getOrigin().getY()) / dy2;
 

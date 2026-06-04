@@ -1,7 +1,7 @@
 /**
  * @file RenderScene.h
  * @brief Scene rendering entry points and SDL UI helper declarations.
- * @author Katarzyna Pi¹tek
+ * @author Katarzyna Piatek
  * @date 2026-05-31
  */
 
