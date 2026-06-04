@@ -1,15 +1,15 @@
 /**
  * @file Constants.h
  * @brief Global constants shared across all translation units.
- * @author Katarzyna Pi¹tek
+ * @author Katarzyna Piatek
  * @date 2026-05-31
  */
 
 #pragma once
 
  /**
-  * @enum    States
-  * @brief   Application state machine (possible program screens).
+  * @enum States
+  * @brief Application state machine (possible program screens).
   */
 enum class States { 
 	Menu, ///< Main menu screen.

@@ -3,11 +3,13 @@
 Cylinder::Cylinder(const Vector_3& c, double r, double yMn, double yMx, std::shared_ptr<Material> m): center(c), radius(std::fmax(0.0, r)), yMin(yMn), yMax(yMx), mat(std::move(m)) {}
 
 bool Cylinder::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
+    // Work in the XZ plane only — the cylinder is infinite along Y at this stage.
     double ox = center.getX() - r.getOrigin().getX();
     double oz = center.getZ() - r.getOrigin().getZ();
     double dx = r.getDirection().getX();
     double dz = r.getDirection().getZ();
 
+    // Quadratic coefficients for the 2D circle equation in XZ.
     double a = dx * dx + dz * dz;
     double h = ox * dx + oz * dz;
     double c = ox * ox + oz * oz - radius * radius;
@@ -29,12 +31,14 @@ bool Cylinder::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
 
             double y = r.at(root).getY();
 
+            // Reject hits outside the cylinder's Y extent.
             if (y < yMin || y > yMax) {
                 continue;
             }
 
             bestRec.setT(root);
             bestRec.setP(r.at(root));
+            // Normal points radially outward from the axis to the hit point.
             Vector_3 outward = (bestRec.getP() - Vector_3(center.getX(), bestRec.getP().getY(), center.getZ())) / radius;
             bestRec.setFaceNormal(r, outward);
             bestRec.setMat(mat);
@@ -45,6 +49,7 @@ bool Cylinder::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
 
     double dy = r.getDirection().getY();
 
+    // Skip cap test entirely if the ray is horizontal.
     if (std::fabs(dy) > 1e-8) {
         for (double capY : {yMin, yMax}) {
             double t = (capY - r.getOrigin().getY()) / dy;
