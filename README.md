@@ -6,7 +6,7 @@ This repository features a highly optimized C++ 3D Ray Tracer built on top of th
 - language: C++
 - additional library: SDL3
 
-## Running the Pre-compiled Binary (Recommended)
+## Running the Pre-compiled Binary
 For immediate execution without manual compilation, a stable production build is provided in the project's release assets:
 1. Navigate to the deployment directory containing the compiled executable.
 2. Ensure that 'SDL3.dll' resides in the same directory as the 'RT_KP.exe' file.
