@@ -1,8 +1,8 @@
 /**
- * @file    Constants.h
- * @brief   Global constants shared across all translation units.
- * @author  Katarzyna Pi¹tek
- * @date    2026-05-31
+ * @file Constants.h
+ * @brief Global constants shared across all translation units.
+ * @author Katarzyna Pi¹tek
+ * @date 2026-05-31
  */
 
 #pragma once
