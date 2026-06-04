@@ -25,8 +25,6 @@
 #include "Setup.h"
 
 int main() {
-    std::cout << "\033]0;Ray Tracer\007";
-
     try {
         // Initializes and runs the application.
         Setup app;
