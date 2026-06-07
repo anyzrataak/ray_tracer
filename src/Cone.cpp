@@ -57,7 +57,7 @@ bool Cone::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
     double dy2 = r.getDirection().getY();
 
     // Test the bottom cap as a flat disk at yMin.
-    if (std::fabs(dy2) > 1e-8) {
+    if (std::fabs(dy2) > DBL_EPSILON) {
         double t = (yMin - r.getOrigin().getY()) / dy2;
 
         if (rayT.surrounds(t) && t < closestT) {
