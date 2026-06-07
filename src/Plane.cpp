@@ -3,7 +3,7 @@
 bool Plane::hit(const Ray& r, Interval rayT, HitRecord& rec) const {
     double denom = dot(normal, r.getDirection());
 
-    if (std::fabs(denom) < 1e-8) {
+    if (std::fabs(denom) < DBL_EPSILON) {
         return false;
     }
 
